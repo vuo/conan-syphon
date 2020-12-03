@@ -5,7 +5,7 @@ class SyphonConan(ConanFile):
     name = 'syphon'
 
     source_version = '5'
-    package_version = '0'
+    package_version = '1'
     version = '%s-%s' % (source_version, package_version)
 
     build_requires = (
@@ -25,7 +25,7 @@ class SyphonConan(ConanFile):
 
     def build(self):
         with tools.chdir(self.source_dir):
-            self.run('xcodebuild ARCHS="x86_64 arm64" VALID_ARCHS="x86_64 arm64" MACOSX_DEPLOYMENT_TARGET=10.11 SYPHON_UNIQUE_CLASS_NAME_PREFIX=Vuo')
+            self.run('xcodebuild ARCHS="x86_64 arm64" VALID_ARCHS="x86_64 arm64" MACOSX_DEPLOYMENT_TARGET=10.11 OTHER_LDFLAGS="-Wl,-macos_version_min,10.11"')
 
     def package(self):
         self.copy('*', src='%s/build/Release/Syphon.framework' % self.source_dir, dst='lib/Syphon.framework', symlinks=True)
